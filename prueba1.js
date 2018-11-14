@@ -51,42 +51,8 @@ clienteListo();
 function verTurno(){
     nom=readlineSync.question('Consulta por el nombre del cliente: ');
     nombre=nom.toUpperCase();
-    let i=0;
-    while(nombre!=clientes[i]){
-        i++;
-        if(i==clientes.length-1){
-            console.log("El nombre introducido no existe en la lista");
-            break;
-        }else{
-            clientes.indexOf(nombre);
-            console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
-            return clientes.indexOf(nombre);
-    }
-    }
+         clientes.indexOf(nombre);
+        console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
+        return clientes.indexOf(nombre);
 }
 
-
-
-verTurno();
-
-function verLista(){
-    console.log(clientes);
-};
-
-verLista();
-
-/*
-function interfaz(){
-    console.log("LISTA DE ESPERA - Restaurante Floridas' Hollywood");
-    console.log("========================================");
-    console.log("1. Agregar nuevo cliente a la lista.");
-    console.log("2. Siguiente cliente ocupa mesa.");
-    console.log("3. Borrar ciente impaciente.");
-    console.log("4. Ver turno de cliente");
-    console.log("5. Ver estado de la lista de espera");
-    console.log("6. Guardar la lista de espera.");
-    console.log("7. Recuperar la lista de espera.");
-    console.log("8. Salir del programa.")
-    console.log('¿Qué opción desea elegir?');
-}
-*/
