@@ -2,6 +2,20 @@ var readlineSync = require('readline-sync');
 const fs = require('fs');
 let clientes=['PEPE','JUAN'];
 //Agregar clientes
+function revisarNombres(nombre){
+    let esta=0;
+    for(let i=0; i<clientes.length; i++){
+        if(nombre==clientes[i]){
+        esta +=1;
+        }    
+    }if(esta>0){
+        console.log('El nombre está en la lista');
+    }else{
+        console.log('El nombre no se encuentra en la lista');
+    }
+}
+
+
 
 function agregaClientes(){
     console.log('va a añadir al siguiente cliente: ' + cliente);
@@ -55,4 +69,3 @@ function verTurno(){
         console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
         return clientes.indexOf(nombre);
 }
-

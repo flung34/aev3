@@ -10,6 +10,20 @@ function agregaClientes(){
     //console.log(clientes);
 }
 
+function revisarNombres(nombre){
+    let esta=0;
+    for(let i=0; i<clientes.length; i++){
+        if(nombre==clientes[i]){
+        esta +=1;
+        }    
+    }if(esta>0){
+        return true;
+        //console.log('El nombre está en la lista');
+    }else{
+        return false;
+        //console.log('El nombre no se encuentra en la lista');
+    }
+}
 
 function preguntaClientes(){
     let repe=0;
@@ -51,18 +65,13 @@ clienteListo();
 function verTurno(){
     nom=readlineSync.question('Consulta por el nombre del cliente: ');
     nombre=nom.toUpperCase();
-    let i=0;
-    while(nombre!=clientes[i]){
-        i++;
-        if(i==clientes.length-1){
-            console.log("El nombre introducido no existe en la lista");
-            break;
-        }else{
-            clientes.indexOf(nombre);
-            console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
-            return clientes.indexOf(nombre);
+    while(revisarNombres(nombre)==false){
+        
     }
-    }
+    
+    clientes.indexOf(nombre);
+    console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
+    return clientes.indexOf(nombre);
 }
 
 
