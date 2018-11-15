@@ -1,8 +1,6 @@
-
-
 var readlineSync = require('readline-sync');
 const fs = require('fs');
-let clientes=['PEPE','JUAN', 'MARTIN','ROSA'];
+let clientes=['PEPE', 'XUAN', 'XURDE'];
 
 //Interfaz programa
 function interfaz(){
@@ -39,13 +37,18 @@ agregarCliente();
 
 //1. Agregar nuevo cliente
 function agregarCliente(){
-    do{
+    if(clientes.length==0){
         clien=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
         cliente=clien.toUpperCase();
-        if(yaEstaCliente(cliente)==false){
-            console.log('El nombre del cliente ya está registrado. Cambie el nombre.');
-        }
-    }while(yaEstaCliente(cliente)==false);
+    }else{
+        do{
+            clien=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
+            cliente=clien.toUpperCase();
+            if(yaEstaCliente(cliente)==false){
+                console.log('El nombre del cliente ya está registrado. Cambie el nombre.');
+            }
+        }while(yaEstaCliente(cliente)==false);
+    }
     console.log('Añadir al siguiente cliente: ' + cliente);
     clientes.push(cliente);
     //volverAinterfaz();
@@ -100,6 +103,9 @@ function verTurno(){
     do{
         clien=readlineSync.question('Escriba el nombre del cliente que quiere comprobar: ');
         cliente=clien.toUpperCase();
+        if(yaEstaCliente(cliente)==true){
+            console.log('El cliente no está en la lista. Vuelva a intentarlo')
+        }
     }while(yaEstaCliente(cliente)==true); //En este caso, si el cliente ya está en la lista ==false
     let x=0;
     for(let i=0; i<clientes.length; i++){
@@ -126,7 +132,15 @@ verLista();
 
 
 //FUNCION GUARDAR LISTA DE ESPERA
+function guardarDatos(){
+    let file = fs.openSync('lista.txt','w');
+    for(let i=0; i<clientes.length; i++){
+        texto=clientes[i]+(', '+ '\n');
+        fs.writeSync(file,texto,undefined,'utf-8');
+    }
+}
 
+guardarDatos();
 
 
 //FUNCIONES USER EXPERIENCE - PENDIENTES
