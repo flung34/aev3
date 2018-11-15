@@ -29,7 +29,29 @@ function opcionInterfaz(opcion){
         console.log('La opción introducida no es correcta.');
         interfaz();
     }else{
-        // PENDIENTE AÑADIR SWITCH console.log('algo')
+        switch(opcion){
+            case 1:
+                agregarCliente();
+                break;
+            case 2:
+                clienteListo();
+                break;
+            case 3:
+                clientePerdido();
+                break;
+            case 4:
+                verTurno();
+                break;
+            case 5:
+                verLista();
+                break;
+            case 6:
+                guardarDatos();
+            //case 7:
+            //case 8:
+            default:
+                interfaz();
+        }
     }
 }
 interfaz();
@@ -79,7 +101,7 @@ function clienteListo(){
     console.log('la lista de clientes ahora es: '+ clientes);
     return clientes;
 }
-clienteListo();
+//clienteListo();
 
 //3. CLIENTE IMPACIENTE - funcion para borrar cliente
 function clientePerdido(){
@@ -96,7 +118,7 @@ function clientePerdido(){
     console.log('la lista de clientes ahora es: '+ clientes);
     return clientes;
 }
-clientePerdido();
+//clientePerdido();
 
 //4. VER TURNO DE CLIENTE
 function verTurno(){
@@ -118,7 +140,7 @@ function verTurno(){
 
 
 }
-verTurno();
+//verTurno();
 
 //FUNCION ESTADO LISTA DE ESPERA
 function verLista(){
@@ -128,7 +150,7 @@ function verLista(){
     }
 }
 
-verLista();
+//verLista();
 
 
 //FUNCION GUARDAR LISTA DE ESPERA
@@ -140,7 +162,7 @@ function guardarDatos(){
     }
 }
 
-guardarDatos();
+//guardarDatos();
 
 
 //FUNCIONES USER EXPERIENCE - PENDIENTES
