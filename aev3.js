@@ -47,15 +47,17 @@ function opcionInterfaz(opcion){
                 break;
             case 6:
                 guardarDatos();
-            //case 7:
-            //case 8:
+            case 7:
+                recuperarDatos();
+            case 8:
+                break;
             default:
                 interfaz();
         }
     }
 }
-interfaz();
-agregarCliente();
+//interfaz();
+//agregarCliente();
 
 //1. Agregar nuevo cliente
 function agregarCliente(){
@@ -153,13 +155,21 @@ function verLista(){
 //verLista();
 
 
-//FUNCION GUARDAR LISTA DE ESPERA
+//6.FUNCION GUARDAR LISTA DE ESPERA
 function guardarDatos(){
     let file = fs.openSync('lista.txt','w');
     for(let i=0; i<clientes.length; i++){
         texto=clientes[i]+(', '+ '\n');
         fs.writeSync(file,texto,undefined,'utf-8');
     }
+}
+
+//7. RECUPERAR DATOS
+function recuperarDatos(){
+    let clientes2 = fs.openSync('lista.txt', 'r');
+    console.log(clientes2);
+    console.log(clientes2.length);
+    return(clientes2);
 }
 
 //guardarDatos();
@@ -178,3 +188,6 @@ function volverAinterfaz(){
     return interfaz();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+recuperarDatos();
