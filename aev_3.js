@@ -29,48 +29,50 @@ function opcionInterfaz(opcion){
         console.log('La opción introducida no es correcta.');
         interfaz();
     }else{
-        while(opcion!=8){
+
 
         switch(opcion){
                 case 1:
                     agregarCliente(clientes);
+                    console.clear();
                     
                     interfaz();
                     break;
                 case 2:
                     
                     clienteListo(clientes);
+                    console.clear();
                     
                     interfaz();
                     break;
                 case 3:
                     
                     clientePerdido(clientes);
-                    
+                    console.clear();
                     interfaz();
+
                     break;
                 case 4:
                     
                     verTurno(clientes);
-                    
+                    console.clear();
                     interfaz();
                     break;
                 case 5:
                     
                     verLista(clientes);
-                    
                     interfaz();
                     break;
                 case 6:
                     
                     guardarDatos(clientes);
-                    
                     interfaz();
+
                 case 7:
                     
                     recuperarDatos(clientes);
-                    
                     interfaz();
+
                 case 8:
                     break;
                 default:
@@ -79,7 +81,7 @@ function opcionInterfaz(opcion){
             console.clear();
         }
     }
-}
+
 
 
 //1. Agregar nuevo cliente
@@ -141,6 +143,10 @@ function clientePerdido(arr){
         esta = yaEstaCliente(nombre,arr);
         if(esta){
             console.log("El cliente no está en la lista. Vuelva a intentarlo")
+            ver=readlineSync.question("Quiere ver la lista? Pulse 'v': ")
+            if(ver=='v'){
+                verLista(arr);
+            }
         }
     }while(esta==true); //Si el cliente ya está en la lista ==false
     for(let i=0; i<arr.length; i++){
