@@ -1,47 +1,7 @@
 var readlineSync = require('readline-sync');
 const fs = require('fs');
 let clientes=['PEPE','JUAN'];
-
-//Interfaz programa
-function interfaz(){
-    console.log(
-        "LISTA DE ESPERA - Restaurante Floridas' Hollywood"
-    );
-    console.log("========================================");
-    console.log("1. Agregar nuevo cliente a la lista.");
-    console.log("2. Siguiente cliente ocupa mesa.");
-    console.log("3. Borrar ciente impaciente.");
-    console.log("4. Ver turno de cliente");
-    console.log("5. Ver estado de la lista de espera");
-    console.log("6. Guardar la lista de espera.");
-    console.log("7. Recuperar la lista de espera.");
-    console.log("8. Salir del programa.")
-    console.log('¿Qué opción desea elegir?');
-}
-function interfaz();
-
-function estaElCliente(nombre){
-    let yaEsta=0;
-    do{
-        for(let i=0; i<clientes.length; i++){
-            if(nombre==clientes[i]){
-                yaEsta+=1;
-                console.log('El nombre del cliente' + cliente + ' ya está en la lista.')        
-            }
-        }
-        preguntaClientes();
-    }while(yaEsta>0);
-    if(yaEsta==0){
-        return true;
-    }else{
-        return false
-    }
-}
-
-estaElCliente(nombre);
-
 //Agregar clientes
-
 
 function agregaClientes(){
     console.log('va a añadir al siguiente cliente: ' + cliente);
