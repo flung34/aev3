@@ -1,6 +1,6 @@
 var readlineSync = require('readline-sync');
 const fs = require('fs');
-let clientes=['PEPE', 'XUAN', 'XURDE'];
+let clientes=[];
 
 //Interfaz programa
 function interfaz(){
@@ -157,19 +157,20 @@ function verLista(){
 
 //6.FUNCION GUARDAR LISTA DE ESPERA
 function guardarDatos(){
-    let file = fs.openSync('lista.txt','w');
-    for(let i=0; i<clientes.length; i++){
-        texto=clientes[i]+(', '+ '\n');
-        fs.writeSync(file,texto,undefined,'utf-8');
-    }
+    let lista = fs.openSync('lista.txt','w');
+    fs.writeSync(lista,clientes,'utf-8');
 }
+
 
 //7. RECUPERAR DATOS
 function recuperarDatos(){
-    let clientes2 = fs.openSync('lista.txt', 'r');
-    console.log(clientes2);
-    console.log(clientes2.length);
-    return(clientes2);
+    let file = fs.openSync('lista.txt', 'r');
+    let lines=fs.readFileSync(file,"utf-8");
+    let linea =lines.toString();
+    let clientes= linea.split(',');
+    console.log('Sus datos se han recuperado');
+    console.log(clientes);
+    return clientes
 }
 
 //guardarDatos();
@@ -189,5 +190,7 @@ function volverAinterfaz(){
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+guardarDatos();
 recuperarDatos();
+
