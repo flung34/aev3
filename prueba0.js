@@ -1,47 +1,7 @@
 var readlineSync = require('readline-sync');
 const fs = require('fs');
 let clientes=['PEPE','JUAN'];
-
-//Interfaz programa
-function interfaz(){
-    console.log(
-        "LISTA DE ESPERA - Restaurante Floridas' Hollywood"
-    );
-    console.log("========================================");
-    console.log("1. Agregar nuevo cliente a la lista.");
-    console.log("2. Siguiente cliente ocupa mesa.");
-    console.log("3. Borrar ciente impaciente.");
-    console.log("4. Ver turno de cliente");
-    console.log("5. Ver estado de la lista de espera");
-    console.log("6. Guardar la lista de espera.");
-    console.log("7. Recuperar la lista de espera.");
-    console.log("8. Salir del programa.")
-    console.log('¿Qué opción desea elegir?');
-}
-function interfaz();
-
-function estaElCliente(nombre){
-    let yaEsta=0;
-    do{
-        for(let i=0; i<clientes.length; i++){
-            if(nombre==clientes[i]){
-                yaEsta+=1;
-                console.log('El nombre del cliente' + cliente + ' ya está en la lista.')        
-            }
-        }
-        preguntaClientes();
-    }while(yaEsta>0);
-    if(yaEsta==0){
-        return true;
-    }else{
-        return false
-    }
-}
-
-estaElCliente(nombre);
-
 //Agregar clientes
-
 
 function agregaClientes(){
     console.log('va a añadir al siguiente cliente: ' + cliente);
@@ -50,20 +10,6 @@ function agregaClientes(){
     //console.log(clientes);
 }
 
-function revisarNombres(nombre){
-    let esta=0;
-    for(let i=0; i<clientes.length; i++){
-        if(nombre==clientes[i]){
-        esta +=1;
-        }    
-    }if(esta>0){
-        return true;
-        //console.log('El nombre está en la lista');
-    }else{
-        return false;
-        //console.log('El nombre no se encuentra en la lista');
-    }
-}
 
 function preguntaClientes(){
     let repe=0;
@@ -105,28 +51,47 @@ clienteListo();
 function verTurno(){
     nom=readlineSync.question('Consulta por el nombre del cliente: ');
     nombre=nom.toUpperCase();
-    while(revisarNombres(nombre)==false){
-        
+    let i=0;
+    while(nombre!=clientes[i]){
+        i++;
+        if(i==clientes.length-1){
+            console.log("El nombre introducido no existe en la lista");
+            break;
+        }else{
+            clientes.indexOf(nombre);
+            console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
+            return clientes.indexOf(nombre);
     }
-    
-    clientes.indexOf(nombre);
-    console.log('El cliente ocupa el puesto número ' + (clientes.indexOf(nombre)+1) + ' de la lista de espera');
-    return clientes.indexOf(nombre);
+
 }
-
-
 
 verTurno();
 
 function verLista(){
     console.log(clientes);
-};
+}
 
 verLista();
-
 /*
+function guardarLista(){
+    let lista =fs.openSync('lista.txt','a');
+    fs.write(clientes);
+    console.log(fs.openSync('lista.txt','a'))
+
+}
+guardarLista()
+
+
+while(true){
+    console.log()
+}
+
+*/
+
 function interfaz(){
-    console.log("LISTA DE ESPERA - Restaurante Floridas' Hollywood");
+    console.log(
+        "LISTA DE ESPERA - Restaurante Floridas' Hollywood"
+    );
     console.log("========================================");
     console.log("1. Agregar nuevo cliente a la lista.");
     console.log("2. Siguiente cliente ocupa mesa.");
@@ -138,4 +103,20 @@ function interfaz(){
     console.log("8. Salir del programa.")
     console.log('¿Qué opción desea elegir?');
 }
+
+
+/*
+function pedirOpcion(){
+    opcion=readlineSync.questionInt("Escriba el número de su opción (del 1 al 8): ");
+    while(opcion<1 || opcion>8){
+        console.log('No, no, no');
+        console.log('Vuelva a elegir');
+        break;
+    }
+    if(opcion=)
+    interfaz();
+    
+}    
+pedirOpcion();
+
 */
