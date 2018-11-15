@@ -1,6 +1,6 @@
 var readlineSync = require('readline-sync');
 const fs = require('fs');
-let clientes=[];
+clientes=[];
 
 //Interfaz programa
 function interfaz(){
@@ -18,56 +18,57 @@ function interfaz(){
     console.log("6. Guardar la lista de espera.");
     console.log("7. Recuperar la lista de espera.");
     console.log("8. Salir del programa.")
-    opcion= readlineSync.questionInt('¿Qué opción desea elegir? Escriba el número de su opción (1-8): ');
-    opcionInterfaz(opcion);
+    let opc= readlineSync.questionInt('¿Qué opción desea elegir? Escriba el número de su opción (1-8): ');
+    opcionInterfaz(opc);
 }
 
 //Función para gestionar las opciones
 
 function opcionInterfaz(opcion){
-    if(opcion<1 || opcion>8){
+    if(opcion<1 || opcion>7){
         console.log('La opción introducida no es correcta.');
         interfaz();
     }else{
         while(opcion!=8){
+
         switch(opcion){
                 case 1:
-                    agregarCliente();
+                    agregarCliente(clientes);
                     
                     interfaz();
                     break;
                 case 2:
                     
-                    clienteListo();
+                    clienteListo(clientes);
                     
                     interfaz();
                     break;
                 case 3:
                     
-                    clientePerdido();
+                    clientePerdido(clientes);
                     
                     interfaz();
                     break;
                 case 4:
                     
-                    verTurno();
+                    verTurno(clientes);
                     
                     interfaz();
                     break;
                 case 5:
                     
-                    verLista();
+                    verLista(clientes);
                     
                     interfaz();
                     break;
                 case 6:
                     
-                    guardarDatos();
+                    guardarDatos(clientes);
                     
                     interfaz();
                 case 7:
                     
-                    recuperarDatos();
+                    recuperarDatos(clientes);
                     
                     interfaz();
                 case 8:
@@ -75,29 +76,30 @@ function opcionInterfaz(opcion){
                 default:
                     interfaz();
             }
+            console.clear();
         }
     }
 }
-//interfaz();
-//agregarCliente();
+
 
 //1. Agregar nuevo cliente
-function agregarCliente(){
+//El argumento es un array
+function agregarCliente(arr){
     do{
-        if(clientes.length==0){
-            clien=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
-            cliente=clien.toUpperCase();
+        if(arr.length==0){
+            nomMin=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
+            nombre=nomMin.toUpperCase();
         }else{
             do{
-                clien=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
-                cliente=clien.toUpperCase();
-                if(yaEstaCliente(cliente)==false){
+                nomMin=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
+                nombre=nomMin.toUpperCase();
+                if(yaEstaCliente(nombre,arr)==false){
                     console.log('El nombre del cliente ya está registrado. Cambie el nombre.');
                 }
-            }while(yaEstaCliente(cliente)==false);
+            }while(yaEstaCliente(nombre,arr)==false);
         }
-        console.log('Añadir al siguiente cliente: ' + cliente);
-        clientes.push(cliente);
+        console.log('Añadir al siguiente cliente: ' + nombre);
+        arr.push(nombre);
         seguir=readlineSync.question('¿Deseas seguir añadiendo clientes? Pulsa "s" para seguir: ');
     }while(seguir=='s');
     //volverAinterfaz();
@@ -105,13 +107,12 @@ function agregarCliente(){
 
 
 //Saber si el cliente ya está en la lista
-function yaEstaCliente(clien){
+function yaEstaCliente(nom,arr){
     //La función devuelve false si el cliente ya está en la lista
     //Devuelve true si el cliente no estaba
-    let cliente=clien.toUpperCase();
     let yaEsta=0;
-    for(let i=0; i<clientes.length; i++){
-        if(cliente==clientes[i]){
+    for(let i=0; i<arr.length; i++){
+        if(nom==arr[i]){
             yaEsta+=1;
         }
     }if(yaEsta>0){
@@ -122,48 +123,51 @@ function yaEstaCliente(clien){
 }
 
 //2.SIGUIENTE CLIENTE OCUPA MESA
-function clienteListo(){
-    console.log('se eliminará de la lista al siguinte cliente: ' + clientes[0]);
-    clientes.shift();
-    console.log('la lista de clientes ahora es: '+ clientes);
-    return clientes;
+function clienteListo(arr){
+    console.log('se eliminará de la lista al siguinte cliente: ' + arr[0]);
+    arr.shift();
+    console.log('la lista de clientes ahora es: '+ arr);
+    return arr;
 }
 //clienteListo();
 
 //3. CLIENTE IMPACIENTE - funcion para borrar cliente
-function clientePerdido(){
+function clientePerdido(arr){
+    let esta = false;
     do{
-        clien=readlineSync.question('Escriba el nombre del cliente que quiere quitar de la lista: ');
-        cliente=clien.toUpperCase();
-        if(yaEstaCliente()==true){
+        
+        nomMin=readlineSync.question('Escriba el nombre del cliente que quiere quitar de la lista: ');
+        nombre=nomMin.toUpperCase();
+        esta = yaEstaCliente(nombre,arr);
+        if(esta){
             console.log("El cliente no está en la lista. Vuelva a intentarlo")
         }
-    }while(yaEstaCliente(clien)==true); //Si el cliente ya está en la lista ==false
-    for(let i=0; i<clientes.length; i++){
-        if(cliente==clientes[i]){
-            console.log('se eliminará de la lista al siguinte cliente: ' + clientes[i]);
-            clientes.splice(i,1);
+    }while(esta==true); //Si el cliente ya está en la lista ==false
+    for(let i=0; i<arr.length; i++){
+        if(nombre==arr[i]){
+            console.log('se eliminará de la lista al siguinte cliente: ' + arr[i]);
+            arr.splice(i,1);
         }
     }
-    console.log('la lista de clientes ahora es: '+ clientes);
-    return clientes;
+    console.log('la lista de clientes ahora es: '+ arr);
+    return arr;
 }
 //clientePerdido();
 
 //4. VER TURNO DE CLIENTE
-function verTurno(){
+function verTurno(arr){
     do{
-        clien=readlineSync.question('Escriba el nombre del cliente que quiere comprobar: ');
-        cliente=clien.toUpperCase();
-        if(yaEstaCliente(cliente)==true){
+        nomMin=readlineSync.question('Escriba el nombre del cliente que quiere comprobar: ');
+        nombre=nomMin.toUpperCase();
+        if(yaEstaCliente(nombre,arr)==true){
             console.log('El cliente no está en la lista. Vuelva a intentarlo')
         }
-    }while(yaEstaCliente(cliente)==true); //En este caso, si el cliente ya está en la lista ==false
+    }while(yaEstaCliente(nombre,arr)==true); //En este caso, si el cliente ya está en la lista ==false
     let x=0;
-    for(let i=0; i<clientes.length; i++){
-        if(cliente==clientes[i]){
+    for(let i=0; i<arr.length; i++){
+        if(nombre==arr[i]){
             x=i;
-            console.log('El cliente ' + clientes[i] + ' está en el lugar número '+ (i+1));
+            console.log('El cliente ' + arr[i] + ' está en el lugar número '+ (i+1));
         }
     }
     console.log('El cliente tiene '+ x + ' clientes por delante');
@@ -173,9 +177,9 @@ function verTurno(){
 //verTurno();
 
 //FUNCION ESTADO LISTA DE ESPERA
-function verLista(){
-    for(let i=0; i<clientes.length; i++){
-        console.log('nombre: '+ clientes[i] + ' -puesto ' + (i+1));
+function verLista(arr){
+    for(let i=0; i<arr.length; i++){
+        console.log('nombre: '+ arr[i] + ' -puesto ' + (i+1));
         console.log('                        ');
     }
 }
@@ -184,21 +188,21 @@ function verLista(){
 
 
 //6.FUNCION GUARDAR LISTA DE ESPERA
-function guardarDatos(){
+function guardarDatos(arr){
     let lista = fs.openSync('lista.txt','w');
-    fs.writeSync(lista,clientes,'utf-8');
+    fs.writeSync(lista,arr,'utf-8');
 }
 
 
 //7. RECUPERAR DATOS
-function recuperarDatos(){
+function recuperarDatos(arr){
     let file = fs.openSync('lista.txt', 'r');
     let lines=fs.readFileSync(file,"utf-8");
     let linea =lines.toString();
-    let clientes= linea.split(',');
+    arr= linea.split(',');
     console.log('Sus datos se han recuperado');
-    console.log(clientes);
-    return clientes
+    console.log(arr);
+    return arr;
 }
 
 //guardarDatos();
@@ -220,5 +224,3 @@ function volverAinterfaz(){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 interfaz();
-
-
