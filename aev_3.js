@@ -2,7 +2,11 @@ var readlineSync = require('readline-sync');
 const fs = require('fs');
 
 
-//Interfaz programa
+/** Interfaz programa
+ * Muestra las opciones y limpia la pantalla cada vez que se ejecuta
+ * El argumento es el array con el que va a trabajar todo el programa.
+ * Llama a otra funcion para gestionar a las opciones
+*/
 function interfaz(arr){
     console.clear();
     console.log('                                          ');
@@ -23,8 +27,10 @@ function interfaz(arr){
     opcionInterfaz(opc,arr);
 }
 
-//Función para gestionar las opciones
-
+/** Función para gestionar las opciones
+ * toma el parámetro arr de la funcion que la llama - interfaz
+ * toma el parámetro opcion del body de la funcion interfaz
+*/
 function opcionInterfaz(opcion,arr){
     if(opcion<1 || opcion>8){
         console.log('La opción introducida no es correcta.');
@@ -43,14 +49,12 @@ function opcionInterfaz(opcion,arr){
                     clienteListo(arr);
                     interfaz(arr);
                     break;
-                case 3:
-                    
+                case 3:                   
                     clientePerdido(arr);
                     console.clear();
                     interfaz(arr);
                     break;
                 case 4:
-                    
                     verTurno(arr);
                     console.clear();
                     interfaz(arr);
@@ -60,12 +64,10 @@ function opcionInterfaz(opcion,arr){
                     interfaz(arr);
                     break;
                 case 6:
-                    
                     guardarDatos(arr);
                     interfaz(arr);
 
                 case 7:
-                    
                     recuperarDatos(arr);
                     interfaz(arr);
 
@@ -80,8 +82,14 @@ function opcionInterfaz(opcion,arr){
 
 
 
-//1. Agregar nuevo cliente
-//El argumento es un array
+/** 1. Agregar nuevo cliente
+ * El argumento es un array
+ * pide un input de teclado para añadirlo al array
+ * si el input ya está en el array, sigue pidiéndolo
+ * para comprobar si el input ya está en el array llama a la función yaEstaCliente
+ * 
+*/
+
 function agregarCliente(arr){
     console.clear();
     do{
@@ -105,11 +113,17 @@ function agregarCliente(arr){
         arr.push(nombre);
         seguir=readlineSync.question('¿Deseas seguir añadiendo clientes? Pulsa "s" para seguir: ');
     }while(seguir=='s');
-    //volverAinterfaz();
 }
 
+/**
+ * Saber si el cliente ya está en la lista
+ * input: str,arr; output: boolean
+ * los argumentos son nom, que toma del body de la función que llama a esta función - agregar cliente
+ * toma el argumento arr, que es el parámetro de la función que llama a yaEstaCliente
+ * si nom está en el array (arr), devuelve false
+ * si nom no está en el array (arr), devuelve true
+ */
 
-//Saber si el cliente ya está en la lista
 function yaEstaCliente(nom,arr){
     //La función devuelve false si el cliente ya está en la lista
     //Devuelve true si el cliente no estaba
@@ -125,7 +139,12 @@ function yaEstaCliente(nom,arr){
     }
 }
 
-//2.SIGUIENTE CLIENTE OCUPA MESA
+
+
+/** 2.SIGUIENTE CLIENTE OCUPA MESA
+ * argumento: array
+ * elimina el primer elemento del array
+*/
 function clienteListo(arr){
     console.clear();
     console.log('se eliminará de la lista al siguinte cliente: ' + arr[0]);
@@ -134,14 +153,17 @@ function clienteListo(arr){
     //console.log('la lista de clientes ahora es: '+ arr);
     return arr;
 }
-//clienteListo();
 
-//3. CLIENTE IMPACIENTE - funcion para borrar cliente
+/** 3. CLIENTE IMPACIENTE - funcion para borrar cliente
+ * argumento: array
+ * pide un input
+ * comprueba si el input por teclado está en el array y lo elimina del array
+ * si el input no existe en el array permite ver el array
+ */
 function clientePerdido(arr){
     console.clear();
     let esta = false;
     do{
-        
         nomMin=readlineSync.question('Escriba el nombre del cliente que quiere quitar de la lista: ');
         nombre=nomMin.toUpperCase();
         esta = yaEstaCliente(nombre,arr);
@@ -164,8 +186,11 @@ function clientePerdido(arr){
     return arr;
 }
 
-
-//4. VER TURNO DE CLIENTE
+/** 4. VER TURNO DE CLIENTE
+ * argumento: array
+ * pide un input por teclado. Si el input está en el array, imprime el lugar que éste ocupa en el array
+ * si no existe el input da la opción de ver todo el array o salir de la función
+*/
 function verTurno(arr){
     console.clear();
     do{
@@ -173,8 +198,15 @@ function verTurno(arr){
         nombre=nomMin.toUpperCase();
         if(yaEstaCliente(nombre,arr)==true){
             console.log('El cliente no está en la lista. Vuelva a intentarlo')
+            ver=readlineSync.question("Quiere ver la lista? Pulse 'v'. O pulse 's' para salir: ");
+            if(ver=='v'){
+                verLista(arr);
+            }else if(ver=='s'){
+                interfaz(arr);
+            }
         }
     }while(yaEstaCliente(nombre,arr)==true); //En este caso, si el cliente ya está en la lista ==false
+    
     let x=0;
     for(let i=0; i<arr.length; i++){
         if(nombre==arr[i]){
@@ -183,12 +215,11 @@ function verTurno(arr){
         }
     }
     readlineSync.keyIn('El cliente tiene '+ x + ' clientes por delante');
-
-
 }
-//verTurno();
-
-//FUNCION ESTADO LISTA DE ESPERA
+/**FUNCION ESTADO LISTA DE ESPERA 
+ * argumento: array
+ * imprime los elementos que hay en el array
+*/
 function verLista(arr){
     console.clear();
     for(let i=0; i<arr.length; i++){
@@ -199,27 +230,34 @@ function verLista(arr){
     readlineSync.keyIn('                        ');
 }
 
-//verLista();
 
-
-//6.FUNCION GUARDAR LISTA DE ESPERA
+/** 6.FUNCION GUARDAR LISTA DE ESPERA
+ * argumento array
+ * guarda el array que tiene como parámetro y lo guarda en un archivo: lista.txt
+ */
 function guardarDatos(arr){
     let lista = fs.openSync('lista.txt','w');
     fs.writeSync(lista,arr,'utf-8');
+    verLista(arr);
     console.log('Sus datos se han guardado correctamente');
-    verLista(arr)
-
 }
 
 
-//7. RECUPERAR DATOS
+/**7. RECUPERAR DATOS  
+ * recupera los datos que hay en lista.txt y los guarda en el array
+ * 
+*/
 function recuperarDatos(arr){
     let file = fs.openSync('lista.txt', 'r');
     let lines=fs.readFileSync(file,"utf-8");
     let linea =lines.toString();
-    arr= linea.split(',');
+    linea = linea.split(',');
+    arr.length = 0;
+    for(let i = 0; i < linea.length; i++){
+        arr[i] = linea[i];
+    }
     readlineSync.keyIn('Sus datos se han recuperado');
-    //console.log(arr);
+    console.log(arr);
     return arr;
 }
 
