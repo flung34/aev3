@@ -1,9 +1,9 @@
 var readlineSync = require('readline-sync');
 const fs = require('fs');
-clientes=[];
+
 
 //Interfaz programa
-function interfaz(){
+function interfaz(arr){
     console.clear();
     console.log('                                          ');
     console.log(
@@ -20,64 +20,59 @@ function interfaz(){
     console.log("7. Recuperar la lista de espera.");
     console.log("8. Salir del programa.")
     let opc= readlineSync.questionInt('¿Qué opción desea elegir? Escriba el número de su opción (1-8): ');
-    opcionInterfaz(opc);
+    opcionInterfaz(opc,arr);
 }
 
 //Función para gestionar las opciones
 
-function opcionInterfaz(opcion){
+function opcionInterfaz(opcion,arr){
     if(opcion<1 || opcion>8){
         console.log('La opción introducida no es correcta.');
-        interfaz();
+        interfaz(arr);
+        if(opcion==8){
+            exit();
+        }
     }else{
-
-
         switch(opcion){
                 case 1:
-                    agregarCliente(clientes);
+                    agregarCliente(arr);
                     console.clear();
-                    
-                    interfaz();
+                    interfaz(arr);
                     break;
                 case 2:
-                    
-                    clienteListo(clientes);
-                    console.clear();
-                    
-                    interfaz();
+                    clienteListo(arr);
+                    interfaz(arr);
                     break;
                 case 3:
                     
-                    clientePerdido(clientes);
+                    clientePerdido(arr);
                     console.clear();
-                    interfaz();
-
+                    interfaz(arr);
                     break;
                 case 4:
                     
-                    verTurno(clientes);
+                    verTurno(arr);
                     console.clear();
-                    interfaz();
+                    interfaz(arr);
                     break;
                 case 5:
-                    
-                    verLista(clientes);
-                    interfaz();
+                    verLista(arr);
+                    interfaz(arr);
                     break;
                 case 6:
                     
-                    guardarDatos(clientes);
-                    interfaz();
+                    guardarDatos(arr);
+                    interfaz(arr);
 
                 case 7:
                     
-                    recuperarDatos(clientes);
-                    interfaz();
+                    recuperarDatos(arr);
+                    interfaz(arr);
 
                 case 8:
                     break;
                 default:
-                    interfaz();
+                    interfaz(arr);
             }
             console.clear();
         }
@@ -90,14 +85,14 @@ function opcionInterfaz(opcion){
 function agregarCliente(arr){
     console.clear();
     do{
+        /*
         if(arr.length==0){
             nomMin=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
-            while (nomMin==''){
-                console.log('No ha hañadido ningún nombre. Por favor, escriba un nombre: ');
-                nomMin=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
-            }
             nombre=nomMin.toUpperCase();
+            arr.push(nombre);
+        
         }else{
+            */
             do{
                 nomMin=readlineSync.question('Escriba el nombre del cliente que desea agregar a la lista: ');
                 nombre=nomMin.toUpperCase();
@@ -105,7 +100,7 @@ function agregarCliente(arr){
                     console.log('El nombre del cliente ya está registrado. Cambie el nombre.');
                 }
             }while(yaEstaCliente(nombre,arr)==false);
-        }
+        //}
         console.log('Añadir al siguiente cliente: ' + nombre);
         arr.push(nombre);
         seguir=readlineSync.question('¿Deseas seguir añadiendo clientes? Pulsa "s" para seguir: ');
@@ -116,7 +111,6 @@ function agregarCliente(arr){
 
 //Saber si el cliente ya está en la lista
 function yaEstaCliente(nom,arr){
-    console.clear();
     //La función devuelve false si el cliente ya está en la lista
     //Devuelve true si el cliente no estaba
     let yaEsta=0;
@@ -136,7 +130,8 @@ function clienteListo(arr){
     console.clear();
     console.log('se eliminará de la lista al siguinte cliente: ' + arr[0]);
     arr.shift();
-    readline.keyIn('la lista de clientes ahora es: '+ arr);
+    readlineSync.keyIn('la lista de clientes ahora es: '+ arr);
+    //console.log('la lista de clientes ahora es: '+ arr);
     return arr;
 }
 //clienteListo();
@@ -187,7 +182,7 @@ function verTurno(arr){
             console.log('El cliente ' + arr[i] + ' está en el lugar número '+ (i+1));
         }
     }
-    readline.keyIn('El cliente tiene '+ x + ' clientes por delante');
+    readlineSync.keyIn('El cliente tiene '+ x + ' clientes por delante');
 
 
 }
@@ -197,9 +192,11 @@ function verTurno(arr){
 function verLista(arr){
     console.clear();
     for(let i=0; i<arr.length; i++){
+        
         console.log('nombre: '+ arr[i] + ' -puesto ' + (i+1));
-        readline.keyIn('                        ');
+        
     }
+    readlineSync.keyIn('                        ');
 }
 
 //verLista();
@@ -209,6 +206,9 @@ function verLista(arr){
 function guardarDatos(arr){
     let lista = fs.openSync('lista.txt','w');
     fs.writeSync(lista,arr,'utf-8');
+    console.log('Sus datos se han guardado correctamente');
+    verLista(arr)
+
 }
 
 
@@ -218,27 +218,13 @@ function recuperarDatos(arr){
     let lines=fs.readFileSync(file,"utf-8");
     let linea =lines.toString();
     arr= linea.split(',');
-    readline.keyIn('Sus datos se han recuperado');
-    console.log(arr);
+    readlineSync.keyIn('Sus datos se han recuperado');
+    //console.log(arr);
     return arr;
 }
 
-//guardarDatos();
 
+////////////////////////////////////
+let clientes=[];
+interfaz(clientes);
 
-//FUNCIONES USER EXPERIENCE - PENDIENTES
-function meEquivoque(funcion){
-    let volver=readlineSync.question('Estás seguro de que es lo que querías hacer? Si no lo estás pulsa "n". Pulsa cualquier otra tecla para continuar: ');
-    if(volver=='n'){
-        return funcion;
-    }
-}
-
-function volverAinterfaz(){
-    volver = readlineSync.question('¿Desea volver al inicio?')
-    return interfaz();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-interfaz();
